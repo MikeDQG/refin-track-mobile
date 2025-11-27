@@ -1,0 +1,67 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="24.8.6">
+  <diagram id="cjI0X1iHyuQZg4VFpDoJ" name="Page-1">
+    <mxGraphModel dx="1613" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CRMBdueVctlFmwiemw3y-1" value="Skeniranje barcode na stroju" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="294" y="340" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-2" value="Dodajanje stroja na neznano bar kodo" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="410" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-3" value="Pregled dogodkov za stroj (okvare, servisi)" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="505" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-4" value="Iskanje strojev po imenu / lokaciji" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="580" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-5" value="Pregled dokumentacije za izbrani stroj" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="650" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-6" value="Pregled kontaktnih podatkov za izbrani stroj in klicanje/mailto" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="750" width="130" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-7" value="Delavec" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="555" width="60" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-10" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="CRMBdueVctlFmwiemw3y-7" target="CRMBdueVctlFmwiemw3y-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="530" as="sourcePoint" />
+            <mxPoint x="210" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-11" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="CRMBdueVctlFmwiemw3y-7" target="CRMBdueVctlFmwiemw3y-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="600" as="sourcePoint" />
+            <mxPoint x="490" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-12" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="CRMBdueVctlFmwiemw3y-7" target="CRMBdueVctlFmwiemw3y-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="600" as="sourcePoint" />
+            <mxPoint x="490" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-13" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="CRMBdueVctlFmwiemw3y-7" target="CRMBdueVctlFmwiemw3y-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="600" as="sourcePoint" />
+            <mxPoint x="490" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-14" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="CRMBdueVctlFmwiemw3y-7" target="CRMBdueVctlFmwiemw3y-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="220" y="700" as="sourcePoint" />
+            <mxPoint x="270" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CRMBdueVctlFmwiemw3y-15" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" source="CRMBdueVctlFmwiemw3y-7" target="CRMBdueVctlFmwiemw3y-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="650" as="sourcePoint" />
+            <mxPoint x="490" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
