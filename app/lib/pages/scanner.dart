@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:app/pages/code_read_options.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -11,33 +12,53 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
+  late final MobileScannerController _controller;
+  bool _navigated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = MobileScannerController(
+      detectionSpeed: DetectionSpeed.noDuplicates,
+      returnImage: true,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Scanner Page'),
-      ),
+      appBar: AppBar(title: const Text('Scanner Page')),
       body: Center(
         child: MobileScanner(
           controller: MobileScannerController(
             detectionSpeed: DetectionSpeed.noDuplicates,
             returnImage: true,
           ),
-          onDetect: (capture) {
-            final List<Barcode> barcodes = capture.barcodes;
-            final Uint8List? image = capture.image;
-            for (final barcode in barcodes) {
-              debugPrint('Barcode found! ${barcode.rawValue}');
-              print('Barcode found! ${barcode.rawValue}');
-            }
+          onDetect: (capture) async {
+            if (_navigated) return;
+            _navigated = true;
+
+            await _controller.stop();
+
+            final image = capture.image;
             if (image != null) {
-              showDialog(context: context, builder: (context) {
-                return AlertDialog(
-                  title: Text(barcodes.first.rawValue ?? 'No data'),
-                  content: Image.memory(image),
-                );
-              });
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      CodeReadOptions(image: image, barcodes: capture.barcodes),
+                ),
+              );
             }
+
+            await _controller.start();
+            _navigated = false;
           },
         ),
       ),

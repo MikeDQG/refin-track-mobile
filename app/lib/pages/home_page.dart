@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(title: const Text('Refin Track')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
