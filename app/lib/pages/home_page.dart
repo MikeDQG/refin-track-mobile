@@ -1,5 +1,6 @@
 import 'package:app/pages/page1.dart';
 import 'package:app/pages/scanner.dart';
+import 'package:app/widgets/card_button.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,6 +20,7 @@ class HomePage extends StatelessWidget {
             CardButton(
               title: 'Skeniraj QR kodo',
               icon: Icons.qr_code_scanner,
+              height: MediaQuery.of(context).size.height / 4,
               theme: theme,
               onTap: () {
                 Navigator.push(
@@ -31,6 +33,7 @@ class HomePage extends StatelessWidget {
             CardButton(
               title: 'Isci po imenu',
               icon: Icons.search,
+              height: MediaQuery.of(context).size.height / 4,
               theme: theme,
               onTap: () {
                 Navigator.push(
@@ -49,56 +52,10 @@ class HomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (_) => const PageOne()),
                 );
-              },
+              }, 
+              height: MediaQuery.of(context).size.height / 4,
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class CardButton extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
-  final IconData icon;
-  final ThemeData theme;
-
-  const CardButton({
-    super.key,
-    required this.title,
-    required this.onTap,
-    required this.icon,
-    required this.theme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return SizedBox(
-      width: double.infinity,
-      height: size.height / 4,
-      child: Card(
-        color: theme.colorScheme.primary,
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        clipBehavior: Clip.antiAlias, // needed for InkWell ripple
-        child: InkWell(
-          onTap: onTap,
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(icon, color: Colors.white, size: 50),
-                Text(title, style: TextStyle(color: Colors.white, fontSize: 30)),
-              ],
-            ),
-          ),
         ),
       ),
     );

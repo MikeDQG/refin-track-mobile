@@ -12,23 +12,6 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
-  late final MobileScannerController _controller;
-  bool _navigated = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = MobileScannerController(
-      detectionSpeed: DetectionSpeed.noDuplicates,
-      returnImage: true,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +24,9 @@ class _ScannerState extends State<Scanner> {
             returnImage: true,
           ),
           onDetect: (capture) async {
-            if (_navigated) return;
-            _navigated = true;
-
-            await _controller.stop();
-
             final image = capture.image;
             if (image != null) {
-              await Navigator.push(
+              await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (_) =>
@@ -56,9 +34,6 @@ class _ScannerState extends State<Scanner> {
                 ),
               );
             }
-
-            await _controller.start();
-            _navigated = false;
           },
         ),
       ),
