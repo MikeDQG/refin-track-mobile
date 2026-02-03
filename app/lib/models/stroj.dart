@@ -1,8 +1,9 @@
 class Stroj {
   final int id;
-  final String naziv;
+  String naziv;
+  String? opis;
 
-  Stroj({required this.id, required this.naziv});
+  Stroj({required this.id, required this.naziv, this.opis = "/"});
 
   factory Stroj.fromJson(Map<String, dynamic> json) {
     return Stroj(

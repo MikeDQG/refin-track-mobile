@@ -12,6 +12,7 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
+  bool navigated = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,8 @@ class _ScannerState extends State<Scanner> {
           ),
           onDetect: (capture) async {
             final image = capture.image;
-            if (image != null) {
+            if (image != null && !navigated) {
+              navigated = true;
               await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

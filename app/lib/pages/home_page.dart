@@ -1,5 +1,6 @@
 import 'package:app/pages/page1.dart';
 import 'package:app/pages/scanner.dart';
+import 'package:app/pages/search_page.dart';
 import 'package:app/widgets/card_button.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class HomePage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Refin Track')),
+      appBar: AppBar(title: Center(child: Text('Refin Track'))),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -31,14 +32,14 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             CardButton(
-              title: 'Isci po imenu',
+              title: 'Poišči stroj',
               icon: Icons.search,
               height: MediaQuery.of(context).size.height / 4,
               theme: theme,
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const PageOne()),
+                  MaterialPageRoute(builder: (_) => SearchPage()),
                 );
               },
             ),
