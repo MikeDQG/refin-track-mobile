@@ -16,11 +16,17 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   bool isEditing = false;
   bool isNewRecord = false;
+  late Stroj localStroj;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    localStroj = Stroj(
+      id: widget.stroj.id,
+      naziv: widget.stroj.naziv,
+      opis: widget.stroj.opis,
+    );
     _initializeEditing();
   }
 
@@ -32,14 +38,15 @@ class _DetailsPageState extends State<DetailsPage> {
     if (!mounted) return;
 
     setState(() {
-      if (existingStroj == null) {
+      if (existingStroj != null) {
+        localStroj.naziv = existingStroj.naziv;
+        localStroj.opis = existingStroj.opis;
+        isNewRecord = false;
+        isEditing = false; // 🔴 THIS WAS MISSING
+      } else {
         isNewRecord = true;
         isEditing = true;
-      } else{
-        widget.stroj.naziv = existingStroj.naziv;
-        widget.stroj.opis = existingStroj.opis;
       }
-      print("widget.stroj.opis: ${widget.stroj.opis} - ${existingStroj?.opis}");
       isLoading = false;
     });
   }
@@ -57,23 +64,21 @@ class _DetailsPageState extends State<DetailsPage> {
                 children: [
                   EditableAttributeRow(
                     attributeName: 'Naziv',
-                    attributeValue: widget.stroj.naziv,
+                    attributeValue: localStroj.naziv,
                     isEditing: isEditing,
-                    onChanged: (value) => setState(() {
-                      widget.stroj.naziv = value;
-                    }),
+                    onChanged: (value) => localStroj.naziv = value,
                   ),
                   SizedBox(height: 8),
                   AttributeRow(
                     attributeName: 'Številka',
-                    attributeValue: widget.stroj.id.toString(),
+                    attributeValue: localStroj.id.toString(),
                   ),
                   SizedBox(height: 8),
                   EditableAttributeRow(
                     attributeName: 'Opis',
                     isEditing: isEditing,
-                    attributeValue: widget.stroj.opis ?? "/",
-                    onChanged: (newValue) => widget.stroj.opis = newValue,
+                    attributeValue: localStroj.opis ?? "/",
+                    onChanged: (newValue) => localStroj.opis = newValue,
                   ),
                   SizedBox(height: 8),
                   Row(
@@ -104,7 +109,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         ElevatedButton(
                           onPressed: () async {
                             await FirebaseStrojService.deleteStroj(
-                              widget.stroj.id,
+                              localStroj.id,
                             );
                             Navigator.pop(context);
                           },
@@ -125,9 +130,9 @@ class _DetailsPageState extends State<DetailsPage> {
                         ElevatedButton(
                           onPressed: () async {
                             final Stroj editedStroj = Stroj(
-                              id: widget.stroj.id,
-                              naziv: widget.stroj.naziv,
-                              opis: widget.stroj.opis,
+                              id: localStroj.id,
+                              naziv: localStroj.naziv,
+                              opis: localStroj.opis,
                             );
                             final int _result = isNewRecord
                                 ? await FirebaseStrojService.saveStroj(

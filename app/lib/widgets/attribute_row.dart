@@ -13,9 +13,11 @@ class AttributeRow extends StatelessWidget {
       children: [
         Text("$attributeName:", style: TextStyle(fontSize: 16)),
         SizedBox(width: 8),
-        Text(
-          attributeValue,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        Expanded(
+          child: Text(
+            attributeValue,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );

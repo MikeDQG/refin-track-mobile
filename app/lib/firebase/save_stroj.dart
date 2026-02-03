@@ -36,7 +36,7 @@ class FirebaseStrojService {
     if (querySnapshot.docs.isNotEmpty) {
       final doc = querySnapshot.docs.first;
       print(doc.data());
-      return Stroj(id: doc['stroj_id'], naziv: doc['naziv']);
+      return Stroj(id: doc['stroj_id'], naziv: doc['naziv'], opis: doc['opis']);
     } else {
       return null;
     }
