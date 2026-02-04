@@ -90,32 +90,30 @@ class _DetailsPageState extends State<DetailsPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (isEditing) ...{
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (isNewRecord && isEditing) {
-                                    Navigator.pop(context);
-                                  } else {
-                                    isEditing = !isEditing;
-                                  }
-                                });
-                              },
-                              child: Row(
-                                children: [
-                                  if (isEditing) ...{
-                                    Text('Prekliči'),
-                                    SizedBox(width: 8),
-                                    Icon(Icons.close),
-                                  } else ...{
-                                    Text('Uredi'),
-                                    SizedBox(width: 8),
-                                    Icon(Icons.edit),
-                                  },
-                                ],
-                              ),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                if (isNewRecord && isEditing) {
+                                  Navigator.pop(context);
+                                } else {
+                                  isEditing = !isEditing;
+                                }
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                if (isEditing) ...{
+                                  Text('Prekliči'),
+                                  SizedBox(width: 8),
+                                  Icon(Icons.close),
+                                } else ...{
+                                  Text('Uredi'),
+                                  SizedBox(width: 8),
+                                  Icon(Icons.edit),
+                                },
+                              ],
                             ),
-                          },
+                          ),
                           if (!isEditing) ...{
                             SizedBox(width: 16),
                             ElevatedButton(

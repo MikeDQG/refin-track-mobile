@@ -64,32 +64,26 @@ class _CodeReadOptionsState extends State<CodeReadOptions> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Izberi QR kodo')),
-      body: Center(
+      body: Container(
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: ListView(
           controller: _scrollController,
           padding: EdgeInsets.all(16.0),
           children: [
             Image.memory(widget.image),
             ...barcodeList.map(
-              (stroj) => ListTile(
-                key: ValueKey(stroj.id),
-                title: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.qr_code),
-                      const SizedBox(width: 10),
-                      Text("ID: ${stroj.id.toString()}"),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text("Naziv: ${stroj.naziv}")),
-                      if (stroj.id == selectedIndex)
-                        const Icon(Icons.check, color: Colors.green),
-                    ],
-                  ),
+              (stroj) => Card(
+                color: Colors.white,
+                child: ListTile(
+                  key: ValueKey(stroj.id),
+                  leading: const Icon(Icons.qr_code),
+                  title: Expanded(child: Text(stroj.naziv)),
+                  subtitle: Text("ID: ${stroj.id.toString()}"),
+                  trailing: stroj.id == selectedIndex ? Icon(Icons.check, color: Colors.green) : null,
+                  onTap: () {
+                    toggleSelection(stroj.id);
+                  },
                 ),
-                onTap: () {
-                  toggleSelection(stroj.id);
-                },
               ),
             ),
             if (selectedIndex != -1)
