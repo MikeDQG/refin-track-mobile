@@ -59,20 +59,30 @@ class FirebaseDogodekService {
   }
 
   static Future<List<Dogodek>> getDogodkiByStroj(int stroj_id) async {
-    try {
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('dogodki')
-          .where('stroj_id', isEqualTo: stroj_id)
-          .orderBy('datum', descending: true) // Order by date
-          .get();
+    // try {
+    //   final querySnapshot = await FirebaseFirestore.instance
+    //       .collection('dogodki')
+    //       .where('stroj_id', isEqualTo: stroj_id)
+    //       .orderBy('datum', descending: true) // Order by date
+    //       .get();
 
-      return querySnapshot.docs.map((doc) {
-        return Dogodek.fromFirestore(doc.data(), doc.id);
-      }).toList();
-    } catch (e) {
-      print('Error getting dogodki by stroj: $e');
-      return [];
-    }
+    //   return querySnapshot.docs.map((doc) {
+    //     print("tukajajajjajjaj");
+    //     return Dogodek.fromFirestore(doc.data(), doc.id);
+    //   }).toList();
+    // } catch (e) {
+    //   print('Error getting dogodki by stroj: $e');
+    //   return [];
+    // }
+
+    List<Dogodek> dogodki = await getAllDogodki();
+    List<Dogodek> dog = [];
+    dogodki.forEach((d) {
+      if (d.stroj_id == stroj_id) {
+        dog.add(d);
+      };
+    });
+    return dog;
   }
 
   static Future<String> updateDogodek({required Dogodek dogodek}) async {

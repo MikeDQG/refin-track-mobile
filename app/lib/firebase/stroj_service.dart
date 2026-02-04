@@ -49,7 +49,7 @@ class FirebaseStrojService {
 
     return querySnapshot.docs.map((doc) {
       print(doc.data());
-      return Stroj(id: doc['stroj_id'], naziv: doc['naziv']);
+      return Stroj(id: doc['stroj_id'], naziv: doc['naziv'], opis: doc['opis']);
     }).toList();
   }
 

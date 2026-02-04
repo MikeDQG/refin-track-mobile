@@ -34,11 +34,12 @@ class _DetailsPageState extends State<DetailsPage> {
       widget.stroj.id,
     );
     final List<Dogodek> existingDogodki =
-        await FirebaseDogodekService.getAllDogodki();
+        await FirebaseDogodekService.getDogodkiByStroj(widget.stroj.id);
 
     if (!mounted) return;
 
     setState(() {
+      print(existingDogodki);
       if (existingStroj == null) {
         isNewRecord = true;
         isEditing = true;
