@@ -112,6 +112,8 @@ class _DetailsPageState extends State<DetailsPage> {
                               ),
                             ),
                             SizedBox(width: 16),
+                          },
+                          if (!isEditing)
                             ElevatedButton(
                               onPressed: () async {
                                 await FirebaseStrojService.deleteStroj(
@@ -130,9 +132,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                 ],
                               ),
                             ),
-                          },
-                          if (isEditing && !isNewRecord) SizedBox(width: 16),
-                          if (isEditing)
+                          if (isEditing && !isNewRecord) ...{
+                            SizedBox(width: 16),
                             ElevatedButton(
                               onPressed: () async {
                                 final Stroj editedStroj = Stroj(
@@ -161,6 +162,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 ],
                               ),
                             ),
+                          },
                         ],
                       ),
                     ],
