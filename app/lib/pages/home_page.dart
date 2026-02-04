@@ -18,43 +18,49 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CardButton(
-              title: 'Skeniraj QR kodo',
-              icon: Icons.qr_code_scanner,
-              height: MediaQuery.of(context).size.height / 4,
-              theme: theme,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Scanner()),
-                );
-              },
+            Expanded(
+              child: CardButton(
+                title: 'Skeniraj QR kodo',
+                icon: Icons.qr_code_scanner,
+                height: double.infinity,
+                theme: theme,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const Scanner()),
+                  );
+                },
+              ),
             ),
             SizedBox(height: 20),
-            CardButton(
-              title: 'Poišči stroj',
-              icon: Icons.search,
-              height: MediaQuery.of(context).size.height / 4,
-              theme: theme,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => SearchPage()),
-                );
-              },
+            Expanded(
+              child: CardButton(
+                title: 'Poišči stroj',
+                icon: Icons.search,
+                height: double.infinity,
+                theme: theme,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => SearchPage()),
+                  );
+                },
+              ),
             ),
             SizedBox(height: 20),
-            CardButton(
-              title: 'Zgodovina pregledov',
-              icon: Icons.history,
-              theme: theme,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const PageOne()),
-                );
-              }, 
-              height: MediaQuery.of(context).size.height / 4,
+            Expanded(
+              child: CardButton(
+                title: 'Vsi dogodki',
+                icon: Icons.history,
+                height: double.infinity,
+                theme: theme,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => PageOne()),
+                  );
+                },
+              ),
             ),
           ],
         ),

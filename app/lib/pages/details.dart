@@ -90,17 +90,21 @@ class _DetailsPageState extends State<DetailsPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (!isNewRecord) ...{
+                          if (isEditing) ...{
                             ElevatedButton(
                               onPressed: () {
                                 setState(() {
-                                  isEditing = !isEditing;
+                                  if (isNewRecord && isEditing) {
+                                    Navigator.pop(context);
+                                  } else {
+                                    isEditing = !isEditing;
+                                  }
                                 });
                               },
                               child: Row(
                                 children: [
                                   if (isEditing) ...{
-                                    Text('Prekliči urejanje'),
+                                    Text('Prekliči'),
                                     SizedBox(width: 8),
                                     Icon(Icons.close),
                                   } else ...{
@@ -111,9 +115,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                 ],
                               ),
                             ),
-                            SizedBox(width: 16),
                           },
-                          if (!isEditing)
+                          if (!isEditing) ...{
+                            SizedBox(width: 16),
                             ElevatedButton(
                               onPressed: () async {
                                 await FirebaseStrojService.deleteStroj(
@@ -132,7 +136,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                 ],
                               ),
                             ),
-                          if (isEditing && !isNewRecord) ...{
+                          },
+                          if (isEditing) ...{
                             SizedBox(width: 16),
                             ElevatedButton(
                               onPressed: () async {
@@ -179,7 +184,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         children: [
                           Expanded(
                             child: CardButton(
-                              title: "Dokumentacija",
+                              title: "Dokumenti",
                               onTap: () {
                                 // Navigate to another page or perform an action
                               },

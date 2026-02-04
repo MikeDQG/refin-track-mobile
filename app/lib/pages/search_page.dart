@@ -56,29 +56,32 @@ class _SearchPageState extends State<SearchPage> {
             )
           : Container(
               color: Theme.of(context).colorScheme.primaryContainer,
-              child: ListView(
-                children: stroji
-                    .map(
-                      (stroj) => Card(
-                        child: ListTile(
-                          key: ValueKey(stroj.id),
-                          title: Text(stroj.naziv), // Show stroj name
-                          subtitle: stroj.opis != null && stroj.opis!.isNotEmpty
-                              ? Text(stroj.opis!)
-                              : null,
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => DetailsPage(stroj: stroj),
-                              ),
-                            );
-                          },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: stroji
+                      .map(
+                        (stroj) => Card(
+                          child: ListTile(
+                            key: ValueKey(stroj.id),
+                            title: Text(stroj.naziv), // Show stroj name
+                            subtitle: stroj.opis != null && stroj.opis!.isNotEmpty
+                                ? Text(stroj.opis!)
+                                : null,
+                            trailing: Icon(Icons.chevron_right),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DetailsPage(stroj: stroj),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(), // Don't forget toList()
+                      )
+                      .toList(), // Don't forget toList()
+                ),
               ),
             ),
     );
