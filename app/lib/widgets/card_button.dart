@@ -33,7 +33,7 @@ class CardButton extends StatelessWidget {
       width: this.width,
       height: this.height,
       child: Card(
-        color: theme.colorScheme.primary,
+        color: Theme.of(context).colorScheme.primary,
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(this.borderRadius),
@@ -55,7 +55,9 @@ class CardButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (icon != null) Icon(icon, color: Colors.white, size: this.sizeFactor * 50),
+                if (icon != null) ...{
+                  Icon(icon, color: Colors.white, size: this.sizeFactor * 50),
+                  SizedBox(width: 8)},
                 Text(title, style: TextStyle(color: Colors.white, fontSize: 30 * this.sizeFactor)),
               ],
             ),

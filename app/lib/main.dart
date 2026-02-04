@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Refin Track',
       home: const HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

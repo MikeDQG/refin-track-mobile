@@ -25,7 +25,9 @@ class AttributeRow extends StatelessWidget {
 }
 
 class EditableAttributeRow extends AttributeRow {
+  @override
   final String attributeName;
+  @override
   final String attributeValue;
   final bool isEditing;
   final void Function(String newValue) onChanged;
