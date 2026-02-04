@@ -34,7 +34,7 @@ class EditableAttributeRow extends AttributeRow {
 
   EditableAttributeRow({
     required this.attributeName,
-    required this.attributeValue,
+    this.attributeValue = "",
     required this.isEditing,
     required this.onChanged,
   }) : super(attributeName: attributeName, attributeValue: attributeValue);

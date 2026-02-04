@@ -1,122 +1,108 @@
 import 'package:app/models/dogodek.dart';
-import 'package:app/models/dogodek.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseDogodekService {
-  static Future<int> saveDogodek({required Dogodek dogodek}) async {
-    final query = await FirebaseFirestore.instance
-        .collection('dogodki')
-        .where('dogodek_id', isEqualTo: dogodek.id)
-        .limit(1)
-        .get();
-
-    if (query.docs.isNotEmpty) {
-      return -1;
+  static Future<String> saveDogodek({required Dogodek dogodek}) async {
+    try {
+      // If dogodek doesn't have an ID, generate one
+      if (dogodek.id.isEmpty) {
+        final docRef = FirebaseFirestore.instance.collection('dogodki').doc();
+        dogodek.id = docRef.id;
+        
+        await docRef.set(dogodek.toFirestore());
+        return dogodek.id;
+      } else {
+        // If it has an ID, use it as document ID
+        await FirebaseFirestore.instance
+            .collection('dogodki')
+            .doc(dogodek.id)
+            .set(dogodek.toFirestore());
+        return dogodek.id;
+      }
+    } catch (e) {
+      print('Error saving dogodek: $e');
+      rethrow;
     }
-
-    final Future<void> response = FirebaseFirestore.instance
-        .collection('dogodki')
-        .doc(dogodek.id.toString())
-        .set({
-          'dogodek_id': dogodek.id,
-          'naziv': dogodek.naziv,
-          'opis': dogodek.opis,
-          'datum': dogodek.datum,
-          'aktiven': dogodek.aktiven,
-          'stroj_id': dogodek.stroj_id,
-        });
-    print(response.hashCode);
-    return dogodek.id;
   }
 
-  static Future<Dogodek?> getDogodekById(int id) async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('dogodki')
-        .where('dogodek_id', isEqualTo: id)
-        .limit(1)
-        .get();
+  static Future<Dogodek?> getDogodekById(String id) async { // Changed to String
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('dogodki')
+          .doc(id)  // Directly get by document ID
+          .get();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      final doc = querySnapshot.docs.first;
-      print(doc.data());
-      return Dogodek(
-        id: doc['dogodek_id'], 
-        naziv: doc['naziv'], 
-        opis: doc['opis'], 
-        aktiven: doc['aktiven'], 
-        stroj_id: doc['stroj_id'], 
-        datum: doc['datum']);
-    } else {
+      if (doc.exists) {
+        return Dogodek.fromFirestore(doc.data()!, doc.id);
+      }
+      return null;
+    } catch (e) {
+      print('Error getting dogodek: $e');
       return null;
     }
   }
 
   static Future<List<Dogodek>> getAllDogodki() async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('dogodki')
-        .get();
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('dogodki')
+          .orderBy('created_at', descending: true) // Optional: order by date
+          .get();
 
-    return querySnapshot.docs.map((doc) {
-      print(doc.data());
-      return Dogodek(
-        id: doc['dogodek_id'], 
-        naziv: doc['naziv'], 
-        opis: doc['opis'], 
-        aktiven: doc['aktiven'], 
-        stroj_id: doc['stroj_id'], 
-        datum: doc['datum']);
-    }).toList();
-  }
-
-  static Future<List<Dogodek>> getDogodkiByStroj(int stroj_id) async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('dogodki')
-        .where('stroj_id', isEqualTo: stroj_id)
-        .get();
-
-    return querySnapshot.docs.map((doc) {
-      print(doc.data());
-      return Dogodek(
-        id: doc['dogodek_id'], 
-        naziv: doc['naziv'], 
-        opis: doc['opis'], 
-        aktiven: doc['aktiven'], 
-        stroj_id: doc['stroj_id'], 
-        datum: doc['datum']);
-    }).toList();
-  }
-
-  static Future<int> updateDogodek({required Dogodek dogodek}) async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('dogodki')
-        .where('dogodek_id', isEqualTo: dogodek.id)
-        .limit(1)
-        .get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      final doc = querySnapshot.docs.first;
-      await doc.reference.update({
-        'naziv': dogodek.naziv, 
-        'opis': dogodek,
-        'datum': dogodek.datum,
-        'aktiven': dogodek.aktiven,
-        });
-      return dogodek.id;
-    } else {
-      return -1;
+      return querySnapshot.docs.map((doc) {
+        return Dogodek.fromFirestore(doc.data(), doc.id);
+      }).toList();
+    } catch (e) {
+      print('Error getting all dogodki: $e');
+      return [];
     }
   }
 
-  static Future<void> deleteDogodek(int id) async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('dogodki')
-        .where('dogodek_id', isEqualTo: id)
-        .get();
+  static Future<List<Dogodek>> getDogodkiByStroj(int stroj_id) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('dogodki')
+          .where('stroj_id', isEqualTo: stroj_id)
+          .orderBy('datum', descending: true) // Order by date
+          .get();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      querySnapshot.docs.forEach((doc) async {
-        await doc.reference.delete();
-      });
+      return querySnapshot.docs.map((doc) {
+        return Dogodek.fromFirestore(doc.data(), doc.id);
+      }).toList();
+    } catch (e) {
+      print('Error getting dogodki by stroj: $e');
+      return [];
+    }
+  }
+
+  static Future<String> updateDogodek({required Dogodek dogodek}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('dogodki')
+          .doc(dogodek.id)
+          .update({
+            'naziv': dogodek.naziv,
+            'opis': dogodek.opis, // Fixed: was passing dogodek object instead of opis
+            'datum': Timestamp.fromDate(dogodek.datum),
+            'aktiven': dogodek.aktiven,
+            'updated_at': FieldValue.serverTimestamp(),
+          });
+      return dogodek.id;
+    } catch (e) {
+      print('Error updating dogodek: $e');
+      rethrow;
+    }
+  }
+
+  static Future<void> deleteDogodek(String id) async { // Changed to String
+    try {
+      await FirebaseFirestore.instance
+          .collection('dogodki')
+          .doc(id)
+          .delete();
+    } catch (e) {
+      print('Error deleting dogodek: $e');
+      rethrow;
     }
   }
 }

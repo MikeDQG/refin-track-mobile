@@ -1,5 +1,8 @@
+import 'package:app/firebase/dogodek_service.dart';
 import 'package:app/firebase/stroj_service.dart';
+import 'package:app/models/dogodek.dart';
 import 'package:app/models/stroj.dart';
+import 'package:app/pages/edit_dogodek.dart';
 import 'package:app/widgets/attribute_row.dart';
 import 'package:app/widgets/card_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +21,7 @@ class _DetailsPageState extends State<DetailsPage> {
   bool isEditing = false;
   bool isNewRecord = false;
   bool isLoading = true;
+  List<Dogodek> dogodki = [];
 
   @override
   void initState() {
@@ -29,6 +33,8 @@ class _DetailsPageState extends State<DetailsPage> {
     final existingStroj = await FirebaseStrojService.getStrojById(
       widget.stroj.id,
     );
+    final List<Dogodek> existingDogodki =
+        await FirebaseDogodekService.getAllDogodki();
 
     if (!mounted) return;
 
@@ -42,6 +48,7 @@ class _DetailsPageState extends State<DetailsPage> {
       }
       print("widget.stroj.opis: ${widget.stroj.opis} - ${existingStroj?.opis}");
       isLoading = false;
+      dogodki = existingDogodki;
     });
   }
 
@@ -218,10 +225,44 @@ class _DetailsPageState extends State<DetailsPage> {
                       child: ListView(
                         shrinkWrap: true,
                         children: [
-                          Text(
-                            'Ni dogodkov za ta stroj.',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          ),
+                          if (dogodki.isEmpty)
+                            Text(
+                              'Ni dogodkov za ta stroj.',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          if (dogodki.isNotEmpty) ...{
+                            ...dogodki.map(
+                              (d) => ListTile(
+                                key: ValueKey(d.id),
+                                title: Card(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: EdgeInsetsGeometry.all(8),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 8),
+                                        Text(
+                                          d.naziv,
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          d.displayDate(),
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                onTap: () => {},
+                              ),
+                            ),
+                          },
                         ],
                       ),
                     ),
@@ -231,13 +272,15 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EditDogodekPage(stroj_id: widget.stroj.id),
+            ),
+          );
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
-        child: Icon(
-          Icons.add, 
-          color: Colors.white,
-          ),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
